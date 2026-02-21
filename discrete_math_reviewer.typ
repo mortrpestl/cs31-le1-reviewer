@@ -505,6 +505,8 @@ So there are *36 ways*.
 - Geometric: $ 1/(1-x) = sum_(n=0)^(oo) x^n $
 - Power of $(1 - x)$ as denominator: $ 1/(1-x)^k = sum_(n=0)^(oo) binom(n+k-1, k-1) x^n $
 
+#pagebreak()
+
 = Exercises
 
 *Instructions.* Answer the following correctly, completely, and precisely.
@@ -558,7 +560,7 @@ So there are *36 ways*.
 
 21. Consider an $n times n$ grid. We denote by $(i, j)$ the cell on the $i$th row from the bottom and the $j$th column from the left. An ant starts on $(1, 1)$ and makes its way to $(n, n)$ by only moving up or right. Let $a_(i,j)$ be the number of ways to reach the $(i, j)$ by only moving up or right. Give a recurrence relation for $a_(i, j)$ and give the closed form of $a_(n, n)$.
 
-22. Consider the sequence $ (1, -1, 1, -1, 1, -1, dots). $ Let $a_i$ denote the $i$th term of the sequence, starting from $i = 0$. Give a recurrence relation for $a_i$ and its closed form.
+22. Consider the sequence $ (1, 0, 1, 0, 1, 0, dots). $ Let $a_i$ denote the $i$th term of the sequence, starting from $i = 0$. Give a recurrence relation for $a_i$ and its closed form.
 
 23. Consider a staircase. You may climb 1, 2, or 3 steps at a time, but you cannot take consecutive 2-steps. Let $a_n$ be the number of ways to reach step $n$. Give the recurrence.
 
@@ -574,7 +576,9 @@ So there are *36 ways*.
 
 29. Four fair six-sided dice are rolled. Use generating functions to count how many ways there are to achieve a total of 12.
 
-30. We know that $ sum_(k = r)^n binom(k, r) = binom(n + 1, r + 1). $ Use generating functions to prove this identity. Hint: start from the identity $ 1/(1-x) = sum_(k >= 0) x^k $ and differentiate $r$ times.
+30. We know that $ sum_(k = r)^n binom(k, r) = binom(n + 1, r + 1). $ Use generating functions to prove this identity. Hint: start from the identity $ 1/(1-x) = sum_(k = 0)^(oo) x^k $ and differentiate $r$ times.
+
+#pagebreak()
 
 = Solutions
 
@@ -645,13 +649,13 @@ So there are *36 ways*.
 
   _Proof_. Consider two odd integers $x$ and $y$, where $x < y$ and $y mod x$ is even. Note that we have $ y = floor(y/x) dot x + (y mod x). $ Since $y$ and $x$ are odd and $y mod x$ is even, $floor(y/x)$ should be odd.
 
-  Let $s := min_(x in S) x$ Partition the range $[3, 2^X]$ into at most $X - 1$ subranges: $[s, 2s)$, $[2s, 4s)$, and so on, until $[2^(X - 2)s, 2^(X - 1) s)$. Note that $2^X < 2^(X - 1) s$ because $s > 2$; thus, the union of these ranges fully covers $[3, 2^X]$.
+  Let $s := min_(x in S) x$ Partition the range $[3, 2^X]$ into at most $X - 1$ subranges: $[s, 2s)$, $[2s, 4s)$, and so on, until $[2^(X - 2)s, 2^(X - 1) s)$. Note that $2^X < 2^(X - 1) s$ because $s > 2$; thus, the union of these ranges, $[s, 2^(X - 1)s)$, fully covers $[3, 2^X]$.
 
-  _Claim_. If two odd integers $a, b$ with $a < b$ are in the same subrange, then $b mod a$ is even.
+  _Claim_. If two odd integers $a, b$ with $a < b$, are in the same subrange, then $b mod a$ is even.
   
   _Proof of claim_. Note that because $a$ and $b$ are in the same subrange, $b < 2a$. Since $a < b < 2a$, we must have $ 1 < b / a < 2, $ which implies $ floor(b/a) = 1. $ Since $a$ and $b$ are both odd and $floor(b/a)$ is odd, $b mod a$ is even. $qed$
 
-  Now, since $n >= X$, by the pigeonhole principle, at least two elements of $S$ will be in the same subrange. Let these two elements be $x$ and $y$, and without loss of generality, suppose $x < y$. Since they are in the same subrange, $y mod x$ is even. Thus, we can always find two distinct integers $x, y in S$ such that $y > x$ and $y mod x$ is even. $qed$
+  Now, since $n >= X$ and there are $X - 1$ subranges, by the pigeonhole principle, at least two elements of $S$ will be in the same subrange. Let these two elements be $x$ and $y$, and without loss of generality, suppose $x < y$. Since they are in the same subrange, $y mod x$ is even. Thus, we can always find two distinct integers $x, y in S$ such that $y > x$ and $y mod x$ is even. $qed$
 
 10. The statement is true.
 
@@ -692,7 +696,174 @@ So there are *36 ways*.
 
 17. Recall that $ (1 + x)^n = sum_(k = 0)^n binom(n, k) x^k. $ Substituting $x = 99$ yields $ sum_(k = 0)^n binom(n, k) 99^k = (1 + 99)^n = 100^n. $
 
-18. _Proof_. The 
+18. _Proof_. TODO
+
+19. _Proof_. TODO
+
+20. _Proof_. Consider a set $S$ consisting of $n$ people. We are to pick a subset of $S$, and we must assign the roles of president, secretary, and treasurer to some people in this subset, allowing the possibility of some person having more than 1 role. Let us do this in two ways.
+
+  Consider first fixing the size of the subset to be $k$ and then assigning the roles to those in the subset. For a subset $A subset.eq S$, where $|A| = k$, there are $ binom(n, k) $ ways to choose $A$ and $k^3$ ways to assign the three roles. Thus, for some $k$, there are $ k^3 binom(n, k) $ ways to do this task, and summing up for all values of $k$ gives the desired result. This is $ sum_(k = 0)^n k^3 binom(n, k). $
+
+  Next, consider assigning people to the three roles first and then choosing the remaining people who will be part of the subset. There are three cases.
+
+  _Case 1_. All three roles are given to the same person.
+
+  In this case, there are $n$ ways to choose this one person with all three roles and $2^(n - 1)$ ways to build the rest of the subset. Thus, there are $2^(n - 1)n$ ways to do the task in this case.
+
+  _Case 2_. Two of the roles are given to one person; the last role is given to another person.
+
+  In this case, there are $n$ ways to pick the person who will take two roles, $n - 1$ ways to pick the person who will take the final role, $2^(n - 2)$ ways to build the rest of the subset, and $ binom(3,2) = 3 $ ways to pick which two roles will be assigned to a single person. Thus, there are $3n(n-1)2^(n-2)$ ways to do the task in this case.
+
+  _Case 3_. All the roles are given to different people.
+
+  In this case, there are $n$ ways to pick the president, $n - 1$ ways to pick the secretary, $n - 2$ ways to pick the treasurer, and $2^(n-3)$ ways to build the rest of the subset. Thus, there are $n(n-1)(n-2)2^(n-3)$ ways to do the task in this case.
+
+  Thus, there are $ 2^(n-1)n + 3n(n-1)2^(n-2) + n(n-1)(n-2)2^(n-3) $ ways in total to do the task in this manner.
+
+  Since both ways count the number of ways to do the same task, they must be equal. Thus, $ sum_(k = 0)^n k^3 binom(n, k) = 2^(n-1)n + 3n(n-1)2^(n-2) + n(n-1)(n-2)2^(n-3). space qed  $
+
+21. Consider a cell $(i, j)$. A path to $(i, j)$ can end in either an up move or a right move. Thus, we must have $a_(i, j) = a_(i, j - 1) + a_(i - 1, j)$, with the base cases $a_(1, 1) = 1$ and $a_(i, j) = 0$ if $i <= 0$ or $j <= 0$. That is:
+$
+  a_(i, j) = cases(
+    a_(i - 1, j) + a_(i, j - 1) "if" i > 1 "and" j > 1\,,
+    1 "if" (i, j) = (1, 1)\,,
+    0 "otherwise"
+  )
+$
+  Moving to the cell $(n, n)$ consists of $n$ up moves and $n$ right moves. Thus, there are $ (2n)!/(n!n!) = binom(2n, n) $ ways to move to $(n, n)$. Thus, $ a_(n, n) = binom(2n, n). $
+
+22. We have $a_n = a_(n - 2)$, with the base cases $a_0 = 1$ and $a_1 = 0$.
+
+  The characteristic equation is $r^2 = 1$, which means $r_1 = 1$ and $r_2 = -1$. Thus,
+  $
+    a_n = A(1)^n + B(-1)^n
+  $
+  for some constants $A$ and $B$. Solving yields $A = B = 1/2$. Thus,
+  $ a_n = ((-1)^n + 1)/2. $
+
+  Alternatively, we have $a_n = 1 - a_(n - 1)$, with the base case $a_0 = 1$. Solving this gives the same closed form.
+
+23. Let $x_n$ be the number of ways to reach step $n$ without ending on a 2-step, and let $y_n$ be the number of ways to reach step $n$ by ending with a 2-step. Thus, $a_n = x_n + y_n$.
+
+  We have $x_n = x_(n-1) + y_(n-1) + x_(n-3) + y_(n-3) = a_(n - 1) + a_(n-3)$ and $y_n = x_(n-2)$. Thus:
+  $
+    a_n &= x_n + y_n \
+    &= a_(n - 1) + a_(n - 3) + x_(n - 2) \
+    &= a_(n - 1) + a_(n - 3) + a_(n - 3) + a_(n - 5) \
+    &= a_(n - 1) + 2a_(n - 3) + a_(n - 5).
+  $
+  The recurrence is $a_n = a_(n - 1) + 2a_(n - 3) + a_(n - 5)$, with base cases $a_0 = 0$, $a_1 = 1$, $a_2 = 1$, $a_3 = 2$, $a_4 = 4$.
+
+24. Observe that the characteristic equation is simply $(r-1)^4 = 0$. Thus,
+  $
+    a_n &= A(1)^n + B n (1)^n + C n^2 + (1)^n + D n^3 (1)^n \ &= A + B n + C n^2 + D n^3 . 
+  $
+  Thus, $A = C = D = 0$ and $B = 1$. Then, $a_n = n$.
+
+25. The homogeneous part is $a_n = 13a_(n-1) - 40a_(n-2)$. We have $ r^2 - 13r + 40 = 0,$ and so $(r_1, r_2) &= (5, 8)$. The trial solution for the non-homogeneous part is $C(2)^n$ for some constant $C$. Thus, $C(2)^n = 13 C (2)^(n-1) - 40C (2)^(n-2) + 2^n$. Solving:
+  $
+    13 dot 2 - 40 + 4/C &= 4 \
+    C &= 2/9
+  $
+  Thus, $ a_n = A(5)^n + B(8)^n + 2/9 2^n. $
+
+  Solving for $A$ and $B$:
+  $
+    a_0 &= 0 = A + B + 2/9 \
+    a_1 &= 0 = 5A + 8B + 4/9 \
+    3A &= -12 / 9 => A = -4/9 \
+    B &= -2/9 - A = 2/9
+  $
+  Thus, $ a_n = -4/9 (5)^n + 2/9 (8)^n + 2^(n+1)/9. $
+
+26. _Proof_. Consider an integer $n >= 0$. Define the sequence $ a_k = binom(n, k). $ The generating function for $a_n$ is $ G(x) := sum_(k = 0)^n binom(n, k)x^k. $ Note that $a_k = 0$ for $k > n$. We know that $ G(x) = (1+x)^n = sum_(k = 0)^n binom(n, k)x^k. $
+
+  Taking the derivative of both sides with respect to $x$:
+  $
+    sum_(k = 0)^n k binom(n, k) x^(k - 1) &= n(1 + x)^(n-1).
+  $
+  Substitute $x = 1$:
+  $
+    sum_(k = 0)^n k binom(n, k) 1^(k - 1) &= n(1 + 1)^(n - 1) \
+  $
+  Therefore, 
+  $
+    sum_(k = 0)^n k binom(n, k) &= n 2^(n-1).
+  $
+  As desired. $qed$
+
+27. The generating function of $a_n$ is $ G(x) := 0x^0 + 1x^1 + 2x^2 + dots = sum_(k = 0)^n k x^k. $
+
+  We know that $ 1/(1-x) = sum_(k = 0)^(oo) x^k. $
+
+  Taking the derivative of both sides:
+  $
+    1/(1-x)^2 &= sum_(k = 0)^(oo) k x^(k - 1) \
+    x/(1-x)^2 &= sum_(k = 0)^(oo) k x^k \
+  $
+  Thus, the generating function of $a_n$ is $ G(x) = x/(1-x)^2. $
+
+28. The generating function of $T_n$ is $ G(x) := sum_(k = 0)^(oo) k(k+1)/2 x^k. $ We proceed as follows:
+  $
+    G(x) &= sum_(k = 0)^(oo) k(k+1)/2 x^k \
+    &= sum_(k = 0)^(oo) (binom(k + 2, 2) - k - 1) x^k \
+    &= sum_(k = 0)^(oo) binom(k + 2, 2) x^k - sum_(k = 0)^(oo) k x^k - sum_(k = 0)^(oo) x^k \
+    &= 1/(1-x)^3 - x/(1-x)^2 - 1/(1-x) \
+    &= (1 - x(1-x) - (1-x)^2)/(1-x)^3 \
+    &= (1 - x + x^2 - 1 + 2x - x^2)/(1-x)^3 \
+    &= x/(1-x)^3
+  $
+
+29. The generating function for each dice is $sum_(k = 1)^6 x^k$. Thus, the generating function for four dice is $ (sum_(k = 1)^6 x^k)^4. $ We need to find the coefficient of $x^12$.
+  $
+    (sum_(k = 1)^6 x^k)^4 &= (x + x^2 + x^3 + x^4 + x^5 + x^6)^4 \
+    &= x^4(1 + x + x^2 + x^3 + x^4 + x^5)^4 \
+  $
+  We can find the coefficient of $x^8$ in $(1 + x + x^2 + x^3 + x^4 + x^5)^4$ instead.
+
+  This is given by
+  $
+    &binom(4, 4) + binom(4, 3, 1) + binom(4, 2, 2) dot 2 + binom(4, 2, 1, 1) dot 5 + binom(4, 1, 1, 1, 1) dot 2 \
+    &= 1 + 4 + 6 dot 2 + 12 dot 5 + 24 dot 2 \
+    &= 1 + 4 + 12 + 60 + 48 \
+    &= 125.
+  $
+  Thus, the coefficient of $x^12$ in the original expression is 125. This means that there are 125 ways to achieve a total of 12.
+
+30. _Proof_. We have $ 1/(1-x) = sum_(k = 0)^(oo) x^k. $ Differentiating both sides with respect to $x$ $r$ times gives $ r!/(1 - x)^(r + 1) = sum_(k = 0)^(oo) k!/(k - r)! x^(k - r), $ which implies 
+  $
+    x^r/(1 - x)^(r + 1) &= sum_(k = 0)^(oo) k!/((k-r)!r!) x^k \
+    &= sum_(k = 0)^(oo) binom(k, r) x^k.
+  $
+  Since for all $k < r$, we have $ binom(k, r) = 0, $ we can rewrite
+  $
+    x^r/(1-x)^(r+1) &= sum_(k = 0)^(oo) binom(k, r)x^k \
+    &= sum_(k=r)^(oo) binom(k,r) x^k.
+  $
+  Define a new sequence $b$ as follows:
+  $
+    b_n := sum_(k = r)^n binom(k, r) x^k.
+  $
+  Note that $b_n = 0$ for $n < r$.
+
+  We can use the fact that if $A(x)$ is the ordinary generating function of a sequence ${x_n}$, then the ordinary generating function of the sequence of partial sums ${sum_(k = 0)^n a_k}$ is $ A(x)/(1-x). $ 
+  The generating function for $b$ is
+  $
+    sum_(k = r)^(oo) (sum_(i = r)^k binom(i, r)) x^k &= (x^r) / ((1-x)^(r+1) dot (1-x)) \
+    &= x^r / (1-x)^(r+2) \
+    &= x^r sum_(k=0)^(oo) binom(k + r + 1, r + 1) x^k \
+    &= sum_(k=0)^(oo) binom(k + r + 1, r + 1) x^(k+r) \
+    &= sum_(k=r)^(oo) binom(k + 1, r + 1) x^k.
+  $
+  Equating coefficients, we have
+  $
+    sum_(i = r)^(k) binom(i, r) = binom(k + 1, r + 1),
+  $
+  which is equivalent to
+  $
+    sum_(k=r)^n binom(k, r) = binom(n + 1, r + 1).    
+  $
+  As desired. $qed$
 
 #align(center)[
   #v(2em)
