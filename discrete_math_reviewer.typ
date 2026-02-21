@@ -553,7 +553,7 @@ So there are *36 ways*.
 
 18. Chu Shih-chieh's identity is $ sum_(i = r)^n binom(i, r) = binom(n + 1, r + 1) $ for $n, r in NN$ and $n >= r$. Use a combinatorial proof to verify this.
 
-19. Use a combinatorial proof to show that $ sum_(k = 0)^n k^3 = (sum_(k = 0)^n k)^2 $ for all $n in NN$.
+19. Use a combinatorial proof to show that $ sum_(k=1)^n k^2 = binom(n+1,2) + 2 binom(n+1,3) $ for all $n in NN$.
 
 20. Use a combinatorial proof to show that
    $ sum_(k=0)^n k^3 binom(n, k) = 2^(n-1)n + 3n(n-1)2^(n-2) + n(n-1)(n-2)2^(n-3) $ for all $n in NN$.
@@ -696,9 +696,52 @@ So there are *36 ways*.
 
 17. Recall that $ (1 + x)^n = sum_(k = 0)^n binom(n, k) x^k. $ Substituting $x = 99$ yields $ sum_(k = 0)^n binom(n, k) 99^k = (1 + 99)^n = 100^n. $
 
-18. _Proof_. TODO
+18. _Proof_. Consider a set $S$ of $n + 1$ people, each ranked from 0 to $n$.
 
-19. _Proof_. TODO
+  Suppose we want to choose a subset of size $r+1$ from $S$. We can do this in two ways.
+  
+  The first way is simply directly taking a subset of size $r+1$ from $S$. There are $ binom(n+1, r+1) $ ways to do this.
+
+  The second way is by first fixing the highest rank of the $r+1$ people in our subset. Suppose the person with the highest rank is $i$. Then, we need to choose $r$ people with ranks $[0, i)$ because the person with rank $i$ is already in our subset. There are $ binom(i, r) $ ways to do this.
+
+  Then, we must sum this quantity over all possible values of $i$. We have $i in [r, n]$. Thus, in total, there are
+  $
+    sum_(i=r)^n binom(i, r)
+  $
+  ways to do this task.
+
+  Since both quantities count the same set, they must be equal. Thus,
+  $
+    sum_(i=r)^n binom(i,r) = binom(n+1,r+1),
+  $
+  as desired. $qed$
+
+19. _Proof_. For some integer $n in NN$, consider the problem of counting how many triples $(i, j, k)$ there are such that $1 <= i, j < k <= n + 1$.
+
+  Fix $k$. Then, there are $(k - 1)^2$ valid pairs $(i, j)$. Summing over all valid values of $k$ gives the answer:
+  $
+    sum_(k = 2)^(n + 1) (k - 1)^2 = sum_(k = 1)^n k^2.
+  $
+
+  Then, consider choosing the values of $i$, $j$, and $k$ directly. There are two cases.
+
+  _Case 1_. $i = j$
+
+  Thus, there are $ binom(n + 1, 2) $ ways to pick valid values for $i$, $j$, and $k$.
+
+  _Case 2_. $i != j$
+
+  There are $ binom(n + 1, 3) $ ways to pick the set of values for $i$, $j$, and $k$. Then, because swapping the values of $i$ and $j$ yields a valid triple, this must be multiplied by 2. Thus, there are 
+  $
+    2 binom(n+1, 3)
+  $
+  ways to pick valid values for $i$, $j$, and $k$.
+
+  Since both ways count the same set, they must be equal. Thus,
+  $
+    sum_(k=1)^n k^2 = binom(n + 1, 2) + 2 binom(n + 1, 3),
+  $
+  as desired. $qed$
 
 20. _Proof_. Consider a set $S$ consisting of $n$ people. We are to pick a subset of $S$, and we must assign the roles of president, secretary, and treasurer to some people in this subset, allowing the possibility of some person having more than 1 role. Let us do this in two ways.
 
