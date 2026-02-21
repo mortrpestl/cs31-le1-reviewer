@@ -649,7 +649,7 @@ So there are *36 ways*.
 
   _Proof_. Consider two odd integers $x$ and $y$, where $x < y$ and $y mod x$ is even. Note that we have $ y = floor(y/x) dot x + (y mod x). $ Since $y$ and $x$ are odd and $y mod x$ is even, $floor(y/x)$ should be odd.
 
-  Let $s := min_(x in S) x$ Partition the range $[3, 2^X]$ into at most $X - 1$ subranges: $[s, 2s)$, $[2s, 4s)$, and so on, until $[2^(X - 2)s, 2^(X - 1) s)$. Note that $2^X < 2^(X - 1) s$ because $s > 2$; thus, the union of these ranges, $[s, 2^(X - 1)s)$, fully covers $[3, 2^X]$.
+  Let $s := min_(x in S) x$. Partition the range $[3, 2^X]$ into at most $X - 1$ subranges: $[s, 2s)$, $[2s, 4s)$, and so on, until $[2^(X - 2)s, 2^(X - 1) s)$. Note that $2^X < 2^(X - 1) s$ because $s > 2$; thus, the union of these ranges, $[s, 2^(X - 1)s)$, fully covers $[3, 2^X]$.
 
   _Claim_. If two odd integers $a, b$ with $a < b$, are in the same subrange, then $b mod a$ is even.
   
@@ -659,7 +659,7 @@ So there are *36 ways*.
 
 10. The statement is true.
 
-  _Proof_. Note that there are $n - 1$ possible remainders on division by $n - 1$. Since there are $n$ integers in $S$, at least two must have the same remainder on division by $n - 1$. Let these two integers be $a$ and $b$. Then, we must have $ a equiv b pmod(n - 1) => a - b equiv 0 pmod(n - 1). $ As desired. $qed$
+  _Proof_. Note that there are $n - 1$ possible remainders on division by $n - 1$. Since there are $n$ integers in $S$, at least two must have the same remainder on division by $n - 1$. Let these two integers be $a$ and $b$. Then, we must have $ a equiv b pmod(n - 1) => a - b equiv 0 pmod(n - 1), $ as desired. $qed$
 
 11. Observe that if we permute all other characters besides `I` and `E`, only 2 out of the 3 ways to arrange the 2 `I`'s and the 1 `E` satisfy the condition (namely, `IIE` and `IEI`). Thus, $2/3$ of all permutations of the string `COOKIEZI` satisfy the condition. The answer is $ 2/3 dot 8!/(2!2!) = 6720. $
 
@@ -831,9 +831,9 @@ $
   $
   Therefore, 
   $
-    sum_(k = 0)^n k binom(n, k) &= n 2^(n-1).
+    sum_(k = 0)^n k binom(n, k) &= n 2^(n-1),
   $
-  As desired. $qed$
+  as desired. $qed$
 
 27. The generating function of $a_n$ is $ G(x) := 0x^0 + 1x^1 + 2x^2 + dots = sum_(k = 0)^n k x^k. $
 
@@ -904,9 +904,9 @@ $
   $
   which is equivalent to
   $
-    sum_(k=r)^n binom(k, r) = binom(n + 1, r + 1).    
+    sum_(k=r)^n binom(k, r) = binom(n + 1, r + 1),    
   $
-  As desired. $qed$
+  as desired. $qed$
 
 #align(center)[
   #v(2em)
