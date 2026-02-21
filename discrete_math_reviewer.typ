@@ -15,6 +15,7 @@
 #show math.equation.where(block: false): box
 #let pmod(m) = context h(pmod-spacing.get()) + $(mod med #m)$
 #set page(paper: "a4", numbering: "1")
+#show math.equation.where(block: false): set math.frac(style: "horizontal")
 #set enum(numbering: "1.")
 #set heading(numbering: "1.1")
 
@@ -104,8 +105,7 @@ _Example 2_. Among 5 points placed inside a unit square, at least 2 are within d
 
 == Generalized Pigeonhole Principle
 
-_Definition_. If $n$ objects are placed into $k$ boxes, then:
-- At least one box contains at least $ceil(n/k)$ objects
+_Definition_. If $n$ objects are placed into $k$ boxes, then at least one box contains at least $ceil(n/k)$ objects
 
 _Example_. If 100 students take an exam graded 0-10, at least $ceil(100/11) = 10$ students must receive the same grade.
 
@@ -128,9 +128,9 @@ $ "ABC, ACB, BAC, BCA, CAB, CBA" $
 === $r$-Permutations
 
 Number of ways to arrange $r$ objects from $n$ distinct objects:
-$ P(n,r) = (n)_r = n!/(n-r)! = n times (n-1) times ... times (n-r+1) $
+$ P(n,r) = n!/(n-r)! = n times (n-1) times ... times (n-r+1) $
 
-_Example_. Choose and arrange 2 letters from {A,B,C,D}: 
+_Example_. Choose and arrange 2 letters from ${A,B,C,D}$: 
 $ P(4,2) = 4!/(4-2)! = 4!/2! = 12 $
 
 === Circular Permutations
@@ -159,20 +159,6 @@ _Example_. Choose 2 letters from ${A,B,C,D}$:
 $ binom(4, 2) = (4 dot 3)/(2 dot 1) = 6 $
 
 Selections: AB, AC, AD, BC, BD, CD
-
-=== Key Properties
-
-Selecting to include is the same as selecting to exclude:
-$ binom(n, r) = binom(n, n-r) $
-
-Number of ways to pick nothing or everything:
-$ binom(n, 0) = binom(n, n) = 1 $
-
-=== Relationship between P and C
-
-$ P(n,r) = C(n,r) dot r! $
-
-Interpretation: Each combination can be arranged in $r!$ ways.
 
 === Derangements
 
@@ -295,7 +281,7 @@ Form: $a_n = c_1 a_(n-1) + c_2 a_(n-2) + f(n)$, where $f(n)$ is the *non-homogen
 #table(
   columns: (1fr, 1fr),
   stroke: 0.5pt,
-  [*Form of $f(n)$*], [*Try for $a_n^((p))$*],
+  [*Form of $f(n)$*], [*Trial Solution for $a_n^((p))$*],
   [$c$ (constant)], [$A$],
   [$c dot n$], [$A n + B$],
   [$c dot n^2$], [$A n^2 + B n + C$],
@@ -324,15 +310,11 @@ The generating function encodes the entire sequence into a single function.
 === Geometric Series
 $ 1/(1-x) = sum_(n=0)^oo x^n = 1 + x + x^2 + x^3 + ... $
 
-*Convergence:* $|x| < 1$
-
 === Variations
 
 $ 1/(1-a x) = sum_(n=0)^oo a^n x^n $
 
 $ 1/(1+x) = sum_(n=0)^oo (-1)^n x^n $
-
-$ 1/(1-x)^2 = sum_(n=0)^oo (n+1) x^n $
 
 $ 1/(1-x)^k = sum_(n=0)^oo binom(n+k-1, k-1) x^n $
 
@@ -358,11 +340,22 @@ Equivalently: $x G'(x) = sum_(n=1)^oo n a_n x^n$
 === Integration
 $ integral G(x) dif x = sum_(n=0)^oo a_n/(n+1) x^(n+1) $
 
+=== Convolution
+
+Let ${a_n}_(n = 0)^(oo)$ and ${b_n}_(n = 0)^(oo)$ be two sequences, and let their OGFs be $F(x)$ and $G(x)$, respectively.
+
+Let the product $F(x)G(x)$ be the OGF of ${c_n}_(n = 0)^(oo)$. We have $ c_n = sum_(i = 0)^n a_i b_(n - i). $
+
+The coefficient $c_n$ counts the number of ways to achieve a total of $n$ by:
+- first choosing something worth $k$ in $a_k$ ways,
+- then choosing something worth $n - k$ in $b_(n - k)$ ways,
+- and summing over all possible values of $k$.
+
 == Using Generating Functions to Solve Recurrences
 
 === General Method
 
-*Step 1:* Let $G(x) = sum_(n=0)^oo a_n x^n$
+*Step 1:* Let $G(x) := sum_(n=0)^oo a_n x^n$
 
 *Step 2:* Multiply the recurrence by $x^n$ and sum over appropriate values of $n$
 
@@ -372,21 +365,22 @@ $ integral G(x) dif x = sum_(n=0)^oo a_n/(n+1) x^(n+1) $
 
 *Step 5:* Expand $G(x)$ as a power series to find $a_n$
 
-=== Example 1: Fibonacci Numbers
 
-Recurrence: $F_n = F_(n-1) + F_(n-2)$ for $n >= 2$, with $F_0 = 0, F_1 = 1$
+_Example 1_. Solve the recurrence: $F_n = F_(n-1) + F_(n-2)$ for $n >= 2$, with $F_0 = 0, F_1 = 1$.
 
-*Step 1:* Let $G(x) = sum_(n=0)^oo F_n x^n$
+_Solution_.
+
+*Step 1:* Let $G(x) := sum_(n=0)^oo F_n x^n$
 
 *Step 2:* Multiply recurrence by $x^n$ and sum from $n=2$ to $oo$:
 $ sum_(n=2)^oo F_n x^n = sum_(n=2)^oo F_(n-1) x^n + sum_(n=2)^oo F_(n-2) x^n $
 
 *Step 3:* Express in terms of $G(x)$:
-- Left side: $G(x) - F_0 - F_1 x = G(x) - x$
-- First sum on right: $x sum_(n=2)^oo F_(n-1) x^(n-1) = x(G(x) - F_0) = x G(x)$
-- Second sum on right: $x^2 sum_(n=2)^oo F_(n-2) x^(n-2) = x^2 G(x)$
+- LHS: $ G(x) - F_0 - F_1 x = G(x) - x $
+- First sum on RHS: $ x sum_(n=2)^oo F_(n-1) x^(n-1) = x(G(x) - F_0) = x G(x) $
+- Second sum on RHS: $ x^2 sum_(n=2)^oo F_(n-2) x^(n-2) = x^2 G(x) $
 
-So: $G(x) - x = x G(x) + x^2 G(x)$
+Thus, $G(x) - x = x G(x) + x^2 G(x)$.
 
 *Step 4:* Solve for $G(x)$:
 $ G(x)(1 - x - x^2) = x $
@@ -399,7 +393,7 @@ where $phi = (1+sqrt(5))/2$ and $hat(phi) = (1-sqrt(5))/2$
 
 $ G(x) = x/((1-phi x)(1-hat(phi) x)) = A/(1-phi x) + B/(1-hat(phi) x) $
 
-Solving: $A = 1/sqrt(5)$, $B = -1/sqrt(5)$
+Solving: $A = 1/sqrt(5)$, and $B = -1/sqrt(5)$.
 
 Expand using geometric series:
 $ G(x) = 1/sqrt(5) sum_(n=0)^oo phi^n x^n - 1/sqrt(5) sum_(n=0)^oo hat(phi)^n x^n $
@@ -407,11 +401,11 @@ $ G(x) = 1/sqrt(5) sum_(n=0)^oo phi^n x^n - 1/sqrt(5) sum_(n=0)^oo hat(phi)^n x^
 Therefore:
 $ F_n = 1/sqrt(5)(phi^n - hat(phi)^n) $
 
-=== Example 2: Constant Non-Homogeneous Term
+_Example 2_. 
 
-Recurrence: $a_n = 3a_(n-1) + 2$ for $n >= 1$, with $a_0 = 1$
+Solve the recurrence: $a_n = 3a_(n-1) + 2$ for $n >= 1$, with $a_0 = 1$.
 
-Let $ G(x) := sum_(n=0)^oo a_n x^n. $
+_Solution_. Let $ G(x) := sum_(n=0)^oo a_n x^n. $
 
 Multiply recurrence by $x^n$ and sum from $n=1$ to $oo$:
 $ sum_(n=1)^oo a_n x^n = 3 sum_(n=1)^oo a_(n-1) x^n + 2 sum_(n=1)^oo x^n $
@@ -432,12 +426,9 @@ $
   &= (1+x)/(1-x) \
 $
 Thus:
-$ G(x) = (1+x)/((1-x)(1-3x)) $
+$ G(x) &= (1+x)/((1-x)(1-3x)) \ &= 2/(1-3x) - 1/(1-x) $
 
-Partial fractions:
-$ (1+x)/((1-x)(1-3x)) = A/(1-x) + B/(1-3x) $
-
-Solving yields $(A, B) = (-1, 2)$.
+Thus, we have:
 
 $ 
   G(x) &= 2/(1-3x) - 1/(1-x) \
@@ -450,11 +441,9 @@ $ a_n = 2 dot 3^n - 1 $
 
 == Solving Counting Problems with Generating Functions
 
-=== Example: Coin Change
+_Example_. In how many ways can we make change for $n$ cents using pennies, nickels, and dimes?
 
-*Problem:* In how many ways can we make change for $n$ cents using pennies, nickels, and dimes?
-
-Let $a_n$ = number of ways to make $n$ cents.
+_Solution_. Let $a_n$ = number of ways to make $n$ cents.
 
 *Generating function:*
 - Pennies (1¢): can use 0, 1, 2, 3, ... $ (1 + x + x^2 + x^3 + ...) = 1/(1-x) $
@@ -466,11 +455,9 @@ $ G(x) = 1/((1-x)(1-x^5)(1-x^(10))) $
 
 The coefficient of $x^n$ in the expansion of $G(x)$ gives $a_n$.
 
-=== Example: Distributing Identical Objects
+_Example_. How many ways are there to distribute 10 identical candies to 3 children such that each child gets at least 1 candy?
 
-*Problem:* Distribute 10 identical candies to 3 children such that each child gets at least 1 candy.
-
-*Solution:* Give 1 candy to each child first. Now distribute remaining 7 candies with no restrictions.
+_Solution_. Give 1 candy to each child first. Now distribute remaining 7 candies with no restrictions.
 
 Generating function for each child: $ 1 + x + x^2 + ... = 1/(1-x) $
 
@@ -520,99 +507,196 @@ So there are *36 ways*.
 
 = Exercises
 
-_Instructions_. Answer the following correctly, completely, and precisely.
+*Instructions.* Answer the following correctly, completely, and precisely.
 
-== Basic Counting Principles
+1. Let $n := 2^12 dot 3^5 dot 4^3$. How many positive factors does $n$ have?
 
-1. How many 7-letter strings over the alphabet ${A, B, C, D}$ contain at least one $A$?
+2. Let $S(x)$ denote the sum of the digits of $x$. Let $A := {x | 1 <= x < 1000, S(x) = 12}$. Give $|A|$.
 
-2. In how many ways can 5 different books be distributed to 3 students so that each student gets at least one book?
+3. A palindrome is a number that reads the same when it is read backwards. For instance, 121, 1001, and 1 are palindromes, but 31 and 23 are not.
 
-3. How many integers between 1 and 10,000 (inclusive) are divisible by 3 or 5 but not both?
+  Let $S(x)$ denote the sum of the digits of $x$. A positive 5-digit palindrome $y$ is chosen at random. If the probability that $S(y) = 10$ is given by $a/b$ where $a$ and $b$ are relatively prime positive integers, find $a + b$.
 
-4. A password consists of 8 characters: uppercase letters or digits. How many passwords contain at least one digit?
+4. Suppose $|A| = 23$ and $|B| = 34$. Give the lower and upper bounds of $|A union B|$.
 
-5. How many 6-letter strings over ${A, B, C}$ contain exactly two $A$’s and at least one $B$?
+5. Let $S$ be the set containing 6-letter words made from the first 11 letters of the alphabet without repeated letters. Let $T$ be the set containing all elements of $S$ that do not contain the sub-word `bed`. Give $|T|$. 
 
-== Pigeonhole Principle
+6. Prove or disprove the following statement: for all integers $n > 1$, in a group of $n$ people, there exist two people who are friends with the same number of people in the group. Note that friendship is a symmetrical relation (i.e., if person $X$ is friends with person $Y$, then person $Y$ is friends with person $X$).
 
-6. Prove or disprove: among any 13 integers, there are two whose difference is divisible by 12.
+7. There is a row of 35 chairs. Prove or disprove the following statement: if 28 people are to occupy the chairs, there will always exist 4 consecutive occupied chairs.
 
-7. Prove or disprove: any set of 6 people has at least 3 mutual acquaintances or 3 mutual strangers.
+8. Prove or disprove the following statement: in any sequence of $n^2 + 1$ distinct real numbers, there exists an increasing or decreasing subsequence of length $n + 1$.
 
-8. Prove or disprove: in any sequence of $n^2 + 1$ distinct real numbers,
-   there exists an increasing or decreasing subsequence of length $n + 1$.
+9. Given an integer $n >= 2$ and a set $S$ consisting of $n$ distinct odd integers in the range $[3, 2^X]$, prove or disprove the following statement: if $n >= X$, then there always exists two distinct integers $x, y in S$ such that $y > x$ and $y mod x$ is even.
 
-9. Given an integer $n >= 2$ and a set $S$ consisting of $n$ distinct odd integers in the range $[3, 2^X]$, show that if $n >= X$, then you can always find two distinct integers $x, y in S$ such that $y > x$ and $y mod x$ is even.
+10. Let $S$ be a set of $n$ integers, with $n >= 2$. Prove or disprove the following statement: there exist a pair of integers $x, y in S$ such that $x - y$ is divisible by $n - 1$.
 
-10. Prove or disprove: Let $S$ be any set of 10 integers chosen from ${1,2,...,18}$.
-    There exist two whose sum is $19$.
+11. How many permutations of the string `COOKIEZI` are there such that there exists some `I` that comes before some `E`?
 
-== Permutations, Combinations, Derangements
+12. Let $A$ be the multiset ${1, 1, 3, 4, 5}$. How many permutations of $A$ are lexicographically greater than the permutation $(3, 1, 4, 1, 5)$?
 
-11. How many permutations of the letters in MISSISSIPPI are there?
+13. How many ways are there to seat 6 men and 6 women in a row so that no two women sit next to each other?
 
-12. How many permutations of {1,2,...,8} have no fixed points?
-    (Compute the number of derangements.)
+14. Let $n$ be a positive integer. How many permutations $p$ of the integers from 1 to $n$ are there such that the following hold:
+  - $p_i != i$ for all $1 <= i <= n$, and
+  - $p_1 != 2$.
 
-13. How many ways are there to seat 6 men and 6 women in a row
-    so that no two women sit next to each other?
+  You may express your answer in terms of $D_n$, the number of derangements for a sequence of $n$ elements.
 
-14. In how many ways can 10 identical balls be distributed into 4 distinct boxes
-    if each box must contain at least one ball?
+15. For a permutation $p$ of the integers from 1 to $n$, a fixed point is defined as an index $i$ such that $p_i = i$. How many permutations of $(1,2,dots,n)$ contain exactly one fixed point?
 
-15. How many permutations of {1,2,...,n} contain exactly one fixed point?
+16. Find the coefficient of $x^7$ in $(1 + 2x + 3x^2)^10$. There is no need to simplify your answer.
 
-== Pascal’s Formula and Binomial Theorem
+17. Simplify the expression $ sum_(k = 0)^n binom(n, k) 99^k. $
 
-16. Prove combinatorially that $ binom(n, k) = binom(n - 1, k) + binom(n - 1, k - 1). $
+18. Chu Shih-chieh's identity is $ sum_(i = r)^n binom(i, r) = binom(n + 1, r + 1) $ for $n, r in NN$ and $n >= r$. Use a combinatorial proof to verify this.
 
-17. Find the coefficient of $x^7$ in $(1 + 2x)^10$.
+19. Use a combinatorial proof to show that $ sum_(k = 0)^n k^3 = (sum_(k = 0)^n k)^2 $ for all $n in NN$.
 
-18. Prove that
-   $ sum_(k=0)^n binom(n, k) = 2^n. $
+20. Use a combinatorial proof to show that
+   $ sum_(k=0)^n k^3 binom(n, k) = 2^(n-1)n + 3n(n-1)2^(n-2) + n(n-1)(n-2)2^(n-3) $ for all $n in NN$.
 
-19. Show that
-   $ sum_(k=0)^n (-1)^k binom(n, k) = 0. $
+21. Consider an $n times n$ grid. We denote by $(i, j)$ the cell on the $i$th row from the bottom and the $j$th column from the left. An ant starts on $(1, 1)$ and makes its way to $(n, n)$ by only moving up or right. Let $a_(i,j)$ be the number of ways to reach the $(i, j)$ by only moving up or right. Give a recurrence relation for $a_(i, j)$ and give the closed form of $a_(n, n)$.
 
-20. Find a closed form for
-   $ sum_(k=0)^n k binom(n, k). $
+22. Consider the sequence $ (1, -1, 1, -1, 1, -1, dots). $ Let $a_i$ denote the $i$th term of the sequence, starting from $i = 0$. Give a recurrence relation for $a_i$ and its closed form.
 
-== Recurrences and Solving Recurrences
+23. Consider a staircase. You may climb 1, 2, or 3 steps at a time, but you cannot take consecutive 2-steps. Let $a_n$ be the number of ways to reach step $n$. Give the recurrence.
 
-21. Solve the recurrence:
-   $ a_n = 2a_(n-1)$, with $a_0 = 3.$
+24. Give the closed form: $a_n = 4a_(n-1) - 6a_(n-2) + 4a_(n-3) - a_(n-4)$, where $a_0 = 0$, $a_1 = 1$, $a_2 = 2$, and $a_3 = 3$.
 
-22. Solve: $a_n = a_(n-1) + 3n$, with $a_0 = 0.$
+25. Give the closed form: $a_n = 13a_(n-1) - 40 a_(n-2) + 2^n$, with $a_0 = 0, a_1 = 0$.
 
-23. Solve: $a_n = 3a_(n-1) - 2$, with $a_0 = 1$.
+26. We know that $ sum_(k = 0)^n k binom(n, k) = n 2^(n-1). $ Use generating functions to prove this identity.
 
-24. The Fibonacci sequence satisfies
-   $F_n = F_(n-1) + F_(n-2)$, $F_0 = 0$, $F_1 = 1$.
-   Find a closed form for $F_n$. // replace
+27. Find the generating function for $a_n = n$. Hint: start from the generating function of the sequence $b_n = 1$ for all $n >= 0$.
 
-25. Solve:
-   $a_n = a_(n-1) + a_(n-2) + 1$,
-   with $a_0 = 0, a_1 = 1$.
+28. The sequence of triangular numbers $T_n$ is given by $ T_n = n(n+1)/2. $ Give the generating function for $T_n$.
 
-== Generating Functions
+29. Four fair six-sided dice are rolled. Use generating functions to count how many ways there are to achieve a total of 12.
 
-26. Find the generating function for the sequence $a_n = 1$ for all $n >= 0$.
+30. We know that $ sum_(k = r)^n binom(k, r) = binom(n + 1, r + 1). $ Use generating functions to prove this identity. Hint: start from the identity $ 1/(1-x) = sum_(k >= 0) x^k $ and differentiate $r$ times.
 
-27. Find the generating function for $a_n = n$.
+= Solutions
 
-28. Use generating functions to solve
-   $a_n = 2a_{n-1}, a_0 = 1.$
+1. We note that $n = 2^12 dot 3^5 dot 4^3 = 2^18 dot 3^5$. All factors of $n$ are of the form $2^a dot 3^b$, where $a$ and $b$ are integers and $0 <= a <= 18$ and $0 <= b <= 5$ hold. Since there are 19 possible values for $a$ and $6$ possible values for $b$, there are $19 dot 6 = 114$ total factors.
 
-29. Find the number of ways to make $n$ cents using coins of
-   1, 5, and 10 cents.
+2. Let the digits of some $x in A$ be $d_1$, $d_2$, and $d_3$. We must have $d_1 + d_2 + d_3 = 12$.
 
-30. Let $a_n$ be the number of ways to write $n$ as a sum of 1’s and 2’s.
-    Find a generating function and a closed form for $a_n$.
+  Without restrictions, there are $ binom(12 + 3 - 1, 12) = binom(14, 12) $ ways to assign values to $d_1$, $d_2$, and $d_3$. However, we must remove the cases where at least one of them is greater than 9.
+
+  Note that since $d_1 + d_2 + d_3 = 12$, at most one of them can be greater than 9. Thus, we can fix which of the digits is greater than 9.
+
+  Suppose $d_1 > 9$. Then, let $d'_1 := d_1 - 10$. Thus, we have: 
+  $
+    d_1 + d_2 + d_3 &= d'_1 + 10 + d_2 + d_3 = 12 \
+    d'_1 + d_2 + d_3 &= 2
+  $
+  There are $ binom(2 + 3 - 1, 2) = 6 $ solutions to this. Thus, we have 6 solutions where $d_1 > 9$. Note that by symmetry, we also have 6 solutions where $d_2 > 9$ and 6 solutions where $d_3 > 9$.
+
+  Thus, there are $ binom(14, 12) - 6 - 6 - 6 = 73 $ valid numbers.
+
+3. We first note that there are $9 dot 10 dot 10 = 900$ positive 5-digit palindromes.
+
+  Consider some positive 5-digit palindrome whose digit sum is 10. Let $x$ be the first and fifth digit, $y$ be the second and fourth digit, and $z$ be the third digit. Then, we have $ 2x + 2y + z = 10, $ which implies $z$ is even. Then, we have $ x + y = 5 - z/2. $
+
+  Note that $x > 0$, $y >= 0$, and $z in {0, 2, 4, 6, 8}$. For each $z$, there are $5 - z/2$ valid pairs $(x, y)$. Thus, over all $z$, we have $5 + 4 + 3 + 2 + 1 = 15$ positive 5-digit palindromes whose digit sum is 10.
+
+  The final probability is $ 15/900 = 1/60, $ and the final answer is $1 + 60 = 61$.
+
+4. We note that $|A union B| = |A| + |B| - |A inter B|$. We have $ 0 <= |A inter B| <= 23. $ Thus, $34 <= |A union B| <= 57$.
+
+5. We proceed with complementary counting. First, we have $|S| = P(11, 6)$. Then, we count how many elements of $S$ contain `bed`. Note that we have 8 choices for the rest of the letters, and then we must permute the 4 elements (treating `bed` as a single unit). Thus, there are $ binom(8, 3) dot 4! $ elements of $S$ that contain `bed`. Thus, the final answer is $ 11!/5! - binom(8, 3) dot 4!. $
+
+6. The statement is true. 
+
+  _Proof_. Let $f(x)$ be the number of friends of some person $x$ in the group. Thus, for all $x$, we have $f(x) in [0, n - 1]$. Consider two cases.
+
+  _Case 1_. There is a person with no friends in the group.
+
+  Then, it is impossible for someone else to have $n - 1$ friends in the group; thus, for all $x$, $f(x) in [0, n - 2]$. We have $n$ people and $n - 1$ possible values for $f$.
+
+  _Case 2_. There is a person who is friends with everyone in the group.
+
+  Then, it is impossible for someone else to have no friends in the group; thus, for all $x$, $f(x) in [1, n - 1]$. We have $n$ people and $n - 1$ possible values for $f$.
+
+  Since in all cases, there are $n$ people and $n - 1$ possible values for $f(x)$, there exists two people $a$ and $b$ such that $f(a) = f(b)$. Thus, two people must have the same number of friends in the group. $qed$
+
+7. The statement is true. 
+
+  _Proof_. There are 7 empty chairs and, therefore, 8 segments of consecutive occupied seats. Since there are 28 people, one segment must have at least $ceil(28/8) = 4$ people. Thus, there always exists 4 consecutive occupied chairs. $qed$
+
+8. The statement is true. 
+
+  _Proof_. Let the sequence be $a_1, a_2, dots, a_(n^2+1)$. We proceed with a proof by contradiction.
+
+  Suppose there exists a sequence of $n^2 + 1$ distinct real numbers where length of the longest monotone subsequence is at most $n$. Let $x_i$ be the length of the longest increasing subsequence ending at $a_i$, and let $y_i$ be the length of the longest decreasing subsequence ending at $a_i$. Since $1 <= x_i, y_i <= n$, there are $n dot n = n^2$ distinct pairs $(x_i, y_i)$. 
+  
+  There are $n^2 + 1$ elements, so by the pigeonhole principle, there exist two elements $a_i$ and $a_j$ such that $(x_i, y_i) = (x_j, y_j)$.
+
+  Without loss of generality, suppose $i < j$. Since $a_i != a_j$, we can consider two cases.
+
+  If $a_i < a_j$, then we can extend the longest increasing subsequence ending at $a_i$ by appending $a_j$. Thus, we cannot have $x_i = x_j$.
+
+  Similarly, if $a_i > a_j$, then we can extend the longest decreasing subsequence ending at $a_i$ by appending $a_j$. Thus, we cannot have $y_i = y_j$.
+
+  Since both cases lead to contradictions, the initial assumption was false. Thus, the original statement is true. $qed$
+
+9. The statement is true.
+
+  _Proof_. Consider two odd integers $x$ and $y$, where $x < y$ and $y mod x$ is even. Note that we have $ y = floor(y/x) dot x + (y mod x). $ Since $y$ and $x$ are odd and $y mod x$ is even, $floor(y/x)$ should be odd.
+
+  Let $s := min_(x in S) x$ Partition the range $[3, 2^X]$ into at most $X - 1$ subranges: $[s, 2s)$, $[2s, 4s)$, and so on, until $[2^(X - 2)s, 2^(X - 1) s)$. Note that $2^X < 2^(X - 1) s$ because $s > 2$; thus, the union of these ranges fully covers $[3, 2^X]$.
+
+  _Claim_. If two odd integers $a, b$ with $a < b$ are in the same subrange, then $b mod a$ is even.
+  
+  _Proof of claim_. Note that because $a$ and $b$ are in the same subrange, $b < 2a$. Since $a < b < 2a$, we must have $ 1 < b / a < 2, $ which implies $ floor(b/a) = 1. $ Since $a$ and $b$ are both odd and $floor(b/a)$ is odd, $b mod a$ is even. $qed$
+
+  Now, since $n >= X$, by the pigeonhole principle, at least two elements of $S$ will be in the same subrange. Let these two elements be $x$ and $y$, and without loss of generality, suppose $x < y$. Since they are in the same subrange, $y mod x$ is even. Thus, we can always find two distinct integers $x, y in S$ such that $y > x$ and $y mod x$ is even. $qed$
+
+10. The statement is true.
+
+  _Proof_. Note that there are $n - 1$ possible remainders on division by $n - 1$. Since there are $n$ integers in $S$, at least two must have the same remainder on division by $n - 1$. Let these two integers be $a$ and $b$. Then, we must have $ a equiv b pmod(n - 1) => a - b equiv 0 pmod(n - 1). $ As desired. $qed$
+
+11. Observe that if we permute all other characters besides `I` and `E`, only 2 out of the 3 ways to arrange the 2 `I`'s and the 1 `E` satisfy the condition (namely, `IIE` and `IEI`). Thus, $2/3$ of all permutations of the string `COOKIEZI` satisfy the condition. The answer is $ 2/3 dot 8!/(2!2!) = 6720. $
+
+12. We can count how many permutations are lexicographically smaller than $(3, 1, 4, 1, 5)$.
+
+  We first count how many begin with $1$. There are $4! = 24$ permutations.
+
+  Then, we count how many begin with $3, 1, 1$. There are $2! = 2$ permutations.
+
+  We observe that $(3, 1, 4, 1, 5)$ is the first permutation starting with $3, 1, 4$, so we can conclude that there are $24 + 2 = 26$ permutations lexicographically smaller than $(3, 1, 4, 1, 5)$. Since there are $ 5!/2! = 60 $ total permutations, there are $60 - 1 - 26 = 33$ permutations lexicographically larger than $(3, 1, 4, 1, 5)$.
+
+13. We can seat the 6 men first and then seat the 6 women in the 7 spots between the men and at the ends. The answer is $6! dot 7!$.
+
+14. We proceed with complementary counting; count how many permutations there are such that $a_i != i$ for all $i$ and $a_1 = 2$.
+
+  There are two cases.
+
+  _Case 1_. $a_2 = 1$
+
+  Then, we must count how many permutations of the remaining $n - 2$ there are such that $a_i = i$. This is simply $D_(n - 2)$.
+
+  _Case 2_. $a_2 != 1$
+
+  We must count how many permutations of the $n - 1$ elements there are such that $a_i = i$ for $2 < i <= n$ and $a_2 != 1$. This is $D_(n - 1)$.
+
+  Thus, the final answer is $D_n - (D_(n - 1) + D_(n - 2))$.
+
+15. We can first choose the index of the fixed point and then permute everything else to satisfy the condition. Thus, there are $n D_(n - 1)$ permutations.
+
+16. Let the exponent of $2x$ be $i$ and the exponent of $3x^2$ be $j$. We must find $ sum_(i + 2j = 7 \ i, j >= 0) binom(10, i, j, 10 - i - j) 2^i 3^j. $ We note that the only valid pairs of $(i, j)$ are $(1, 3)$, $(3, 2)$, $(5, 1)$, and $(7, 0)$. Thus, the answer is
+  $
+    binom(10, 1, 3, 6) 2^1 3^3 + binom(10, 3, 2, 5) 2^3 3^2 + binom(10, 5, 1, 4) 2^5 3^1 + binom(10, 7, 0, 3) 2^7 3^0.
+  $
+
+17. Recall that $ (1 + x)^n = sum_(k = 0)^n binom(n, k) x^k. $ Substituting $x = 99$ yields $ sum_(k = 0)^n binom(n, k) 99^k = (1 + 99)^n = 100^n. $
+
+18. _Proof_. The 
 
 #align(center)[
   #v(2em)
   #line(length: 50%, stroke: 0.5pt)
   
-  #text(size: 10pt, style: "italic")[End of Reviewer]
+  #text(size: 10pt, style: "italic")[End]
 ]
